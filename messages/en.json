@@ -1,0 +1,239 @@
+{
+  "nav": {
+    "about": "About",
+    "dreamAlmaty": "Dream Almaty",
+    "howItWorks": "How It Works",
+    "assistant": "Assistant",
+    "dashboard": "Dashboard",
+    "invest": "Invest",
+    "vote": "Vote",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "profile": "Profile",
+    "myImpact": "My Impact",
+    "admin": "Admin"
+  },
+  "hero": {
+    "title": "Breathe Tomorrow. Invest Today.",
+    "subtitle": "Join the movement funding air purification towers across Almaty",
+    "cta": "Join the Movement",
+    "learnHow": "Learn How",
+    "totalRaised": "Total Raised",
+    "greeting": "Salem, {name}",
+    "greetingSubtitle": "Your investment is making Almaty breathe cleaner every day."
+  },
+  "stats": {
+    "totalRaised": "Total Raised",
+    "communityBackers": "Community Backers",
+    "airCleanedDaily": "m³ Air Cleaned Daily",
+    "treesEquivalent": "Trees Equivalent",
+    "towersCompleted": "Towers Completed",
+    "towersInProgress": "Towers In Progress"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "invest": {
+      "title": "Invest",
+      "desc": "Choose any amount from $1. Every dollar builds clean air infrastructure."
+    },
+    "track": {
+      "title": "Track",
+      "desc": "Watch your impact in real time. See exactly how many m³ of air your investment cleans daily."
+    },
+    "grow": {
+      "title": "Grow",
+      "desc": "Almaty breathes cleaner. Your legacy is measured in trees, towers, and lives."
+    }
+  },
+  "tiers": {
+    "title": "Investor Tiers",
+    "civicTitle": "Civic Backer",
+    "civicDesc": "For citizens who care",
+    "partnerTitle": "Green Partner",
+    "partnerDesc": "For businesses investing in their city",
+    "founderTitle": "Tower Founder",
+    "founderDesc": "For visionaries funding the future"
+  },
+  "towers": {
+    "title": "Tower Progress",
+    "tower1": "Tower 1 — Turksib District",
+    "tower2": "Tower 2 — Almaly District",
+    "planned": "Planned — voting in progress",
+    "goal": "Goal",
+    "raised": "Raised",
+    "complete": "complete"
+  },
+  "dream": {
+    "title": "Dream Almaty 2030",
+    "subtitle": "A City That Breathes",
+    "preview": "We are building a future where every resident of Almaty breathes clean air.",
+    "cta": "See the Vision"
+  },
+  "invest": {
+    "title": "Invest in Clean Air",
+    "subtitle": "Choose an amount and see your real-time impact",
+    "amount": "Amount",
+    "custom": "Custom",
+    "impact": "Your Impact",
+    "airDaily": "m³ of air cleaned daily",
+    "trees": "tree equivalents",
+    "towerFunding": "% of Tower 1 funded",
+    "badge": "Badge you'll earn",
+    "confirm": "Confirm Investment",
+    "confirmTitle": "Confirm Your Investment",
+    "success": "Investment Successful!",
+    "successMsg": "You just cleaned {m3} m³ of air daily!",
+    "viewProfile": "View My Profile",
+    "investMore": "Invest More",
+    "share": "Share Impact"
+  },
+  "auth": {
+    "email": "Email Address",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phone": "Phone (optional)",
+    "company": "Company Name",
+    "signIn": "Sign In",
+    "register": "Create Account",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "investorType": "Investor Type",
+    "civic": "Civic Backer",
+    "institutional": "Institutional Investor",
+    "forgotPassword": "Forgot password?",
+    "errors": {
+      "invalidEmail": "Please enter a valid email address.",
+      "weakPassword": "Password must be at least 6 characters.",
+      "emailInUse": "This email is already registered. Try signing in.",
+      "wrongPassword": "Incorrect password. Please try again.",
+      "userNotFound": "No account found with this email.",
+      "tooManyRequests": "Too many attempts. Please wait a few minutes.",
+      "networkError": "Connection error. Please check your internet.",
+      "generic": "Something went wrong. Please try again.",
+      "required": "This field is required."
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "memberSince": "Member since",
+    "totalInvested": "Total Invested",
+    "airDaily": "Air Cleaned Daily",
+    "trees": "Tree Equivalents",
+    "towerPercent": "% of Tower 1",
+    "accountDetails": "Account Details",
+    "investmentHistory": "Investment History",
+    "votingHistory": "Voting History",
+    "votedFor": "You voted for",
+    "notVoted": "You haven't voted yet.",
+    "editProfile": "Edit Profile",
+    "saveChanges": "Save Changes",
+    "changeEmail": "Change Email",
+    "changePassword": "Change Password",
+    "date": "Date",
+    "amount": "Amount",
+    "impact": "Impact (m³/day)",
+    "badgeEarned": "Badge"
+  },
+  "vote": {
+    "title": "Where Should the Next Tower Go?",
+    "subtitle": "Your vote is powered by real AQI data. The most polluted district wins.",
+    "voteButton": "Vote for this district",
+    "votedButton": "Your vote",
+    "alreadyVoted": "You've already voted",
+    "mostNeeded": "Most Needed",
+    "loading": "Loading AQI data...",
+    "results": "Voting Results",
+    "totalVotes": "Total votes",
+    "resetVotes": "Reset All Votes"
+  },
+  "assistant": {
+    "title": "Aura-ly AI Assistant",
+    "subtitle": "Ask anything about air quality, investments, or Almaty's future.",
+    "placeholder": "Ask about air quality, investments, or Almaty...",
+    "send": "Send",
+    "guestLimit": "Sign in to continue the conversation",
+    "guestLimitMsg": "You've used your 3 free messages. Sign in for unlimited access.",
+    "signInCta": "Sign In to Continue"
+  },
+  "about": {
+    "title": "Why Almaty Needs Aura Optima",
+    "problemTitle": "The Problem",
+    "solutionTitle": "The Solution",
+    "teamTitle": "The Team",
+    "techTitle": "The Technology",
+    "stat1": "Top 10 most polluted cities in Central Asia",
+    "stat2": "PM2.5 levels exceed WHO guidelines by 5x in winter",
+    "stat3": "3,200 premature deaths annually linked to air pollution"
+  },
+  "dreamAlmaty": {
+    "title": "Almaty 2030",
+    "subtitle": "A City That Breathes",
+    "milestone2026": "First tower operational in Turksib — 5,000 residents breathe cleaner air daily",
+    "milestone2027": "Three towers running — AQI in lower districts drops by 15%",
+    "milestone2028": "Community hits $500K raised — 10 districts covered",
+    "milestone2029": "Almaty recognized as Central Asia green city leader",
+    "milestone2030": "25 towers operational — Almaty breathes clean"
+  },
+  "aqi": {
+    "good": "Good",
+    "fair": "Fair",
+    "moderate": "Moderate",
+    "poor": "Poor",
+    "hazardous": "Hazardous",
+    "almaty": "Almaty, Today",
+    "pm25": "PM2.5"
+  },
+  "badges": {
+    "civic": "Civic Backer",
+    "partner": "Green Partner",
+    "founder": "Tower Founder"
+  },
+  "districts": {
+    "turksib": "Turksib",
+    "medeu": "Medeu",
+    "alatau": "Alatau",
+    "bostandyk": "Bostandyk",
+    "almaly": "Almaly",
+    "nauryzbai": "Nauryzbai",
+    "zhetysu": "Zhetysu",
+    "narikbai": "Narikbai"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "back": "Back",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "viewAll": "View all",
+    "learnMore": "Learn more",
+    "getStarted": "Get Started",
+    "firebaseNotConfigured": "Firebase is not configured. Please fill in .env.local with your Firebase credentials."
+  },
+  "footer": {
+    "tagline": "For a cleaner Almaty.",
+    "copyright": "© 2026 Aura Optima. For Almaty."
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "overview": "Overview",
+    "tickerEditor": "Investment Ticker Editor",
+    "alertManager": "Pollution Alert Manager",
+    "recentInvestments": "Recent Investments",
+    "districtVoting": "District Voting Results",
+    "userList": "Recent Users",
+    "postAlert": "Post Alert",
+    "clearAlert": "Clear Alert",
+    "updateTicker": "Update Ticker",
+    "resetVotes": "Reset All Votes",
+    "confirmReset": "Are you sure you want to reset all votes?",
+    "alertActive": "Alert Active",
+    "alertInactive": "No Active Alert"
+  }
+}
