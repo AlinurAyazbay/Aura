@@ -48,9 +48,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'AI service not configured' }, { status: 503 });
     }
 
-    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
     const systemPrompt = `You are Aura-ly, the friendly AI assistant for Aura Optima — a platform funding air purification towers across Almaty, Kazakhstan.
 
 You are knowledgeable about:
@@ -58,7 +55,7 @@ You are knowledgeable about:
 - The science of air purification (HEPA + activated carbon filtration)
 - Investment opportunities in green infrastructure
 - Central Asian environmental policy
-- How each $1 invested cleans ${(13.33).toFixed(2)} m³ of air per day
+- How each $1 invested cleans 13.33 m³ of air per day
 - Tower goal: $54,000 per tower, processing 30,000 m³/hour
 
 Current platform stats:
@@ -67,24 +64,20 @@ Current platform stats:
 
 Be warm, encouraging, and data-driven. If asked about unrelated topics, gently redirect to air quality and Aura Optima.
 Respond in the same language as the user (Kazakh or English).
-Greet new users with: "Salem! I'm Aura-ly 🌱 How can I help you breathe easier today?"
 Keep responses concise (2-4 paragraphs max) and use relevant emojis sparingly.`;
 
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    // Use systemInstruction (supported in SDK v0.21+) instead of injecting into history
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-2.0-flash',
+      systemInstruction: systemPrompt,
+    });
+
     const chat = model.startChat({
-      history: [
-        {
-          role: 'user',
-          parts: [{ text: systemPrompt }],
-        },
-        {
-          role: 'model',
-          parts: [{ text: "Salem! I'm Aura-ly 🌱 How can I help you breathe easier today?" }],
-        },
-        ...history.map((msg) => ({
-          role: msg.role === 'user' ? ('user' as const) : ('model' as const),
-          parts: [{ text: msg.content }],
-        })),
-      ],
+      history: history.map((msg) => ({
+        role: msg.role === 'user' ? ('user' as const) : ('model' as const),
+        parts: [{ text: msg.content }],
+      })),
     });
 
     const result = await chat.sendMessage(message);

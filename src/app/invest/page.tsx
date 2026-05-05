@@ -69,17 +69,18 @@ export default function InvestPage() {
         createdAt: serverTimestamp(),
       });
 
-      // Update global stats
-      batch.update(doc(db, 'globalStats', 'investmentData'), {
-        totalRaised: increment(effectiveAmount),
-        backerCount: increment(1),
-      });
+      // setDoc+merge so it works even if the document doesn't exist yet
+      batch.set(
+        doc(db, 'globalStats', 'investmentData'),
+        { totalRaised: increment(effectiveAmount), backerCount: increment(1) },
+        { merge: true }
+      );
 
-      // Update user profile
-      batch.update(doc(db, 'users', uid), {
-        totalInvested: increment(effectiveAmount),
-        badge: newBadge,
-      });
+      batch.set(
+        doc(db, 'users', uid),
+        { totalInvested: increment(effectiveAmount), badge: newBadge },
+        { merge: true }
+      );
 
       await batch.commit();
 

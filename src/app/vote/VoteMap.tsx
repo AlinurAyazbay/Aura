@@ -5,6 +5,10 @@ import { MapContainer, TileLayer, CircleMarker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { District } from '@/types';
 
+// Module-level counter — increments once per mount, never collides even when
+// React Strict Mode double-invokes the component in the same millisecond.
+let _mapId = 0;
+
 interface VoteMapProps {
   districts: District[];
   aqiMap: Record<string, { aqi: number; pm2_5: number; label: string; color: string }>;
@@ -13,9 +17,7 @@ interface VoteMapProps {
 }
 
 export default function VoteMap({ districts, aqiMap, highlightedDistrict, onMarkerClick }: VoteMapProps) {
-  // Unique key per mount prevents "Map container is already initialized" from
-  // React Strict Mode / HMR re-mounting into a container Leaflet already owns.
-  const [mapKey] = useState(() => Date.now());
+  const [mapKey] = useState(() => ++_mapId);
 
   return (
     <div className="rounded-2xl overflow-hidden border border-white/[0.06] h-[400px]">
