@@ -49,16 +49,5 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (pathname.startsWith('/admin')) {
-    const secret = process.env.SESSION_SECRET ?? 'aura-optima-secret-change-in-production';
-    const isAdminCookie = request.cookies.get('aura_is_admin')?.value;
-    const isAdminValue = isAdminCookie
-      ? await verifySignedCookie(isAdminCookie, secret)
-      : null;
-    if (isAdminValue !== 'true') {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-  }
-
   return NextResponse.next();
 }

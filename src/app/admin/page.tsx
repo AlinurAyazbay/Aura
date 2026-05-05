@@ -43,7 +43,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (!isFirebaseConfigured) { setAuthLoading(false); return; }
     const unsub = onAuthStateChanged(auth, (u) => {
-      if (!u || !ADMIN_EMAILS.includes(u.email ?? '')) {
+      if (!u || !ADMIN_EMAILS.some((e) => e.toLowerCase() === (u.email ?? '').toLowerCase())) {
         router.push('/');
         return;
       }
