@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? '';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
+const MODELS = ['gemini-flash-lite-latest', 'gemma-3-4b-it'];
 
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT = 10;
@@ -80,32 +81,39 @@ Keep responses concise (2-4 paragraphs max) and use relevant emojis sparingly.`;
       generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
     };
 
-    const res = await fetch(GEMINI_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    let lastStatus = 500;
+    for (const model of MODELS) {
+      const url = `${GEMINI_BASE}/${model}:generateContent?key=${GEMINI_API_KEY}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error('Gemini API error:', res.status, errText);
-      const message =
-        res.status === 429
-          ? 'The AI is receiving too many requests right now. Please wait a moment and try again.'
-          : `AI service error (${res.status}). Please try again.`;
-      return NextResponse.json({ error: message }, { status: 502 });
+      if (!res.ok) {
+        lastStatus = res.status;
+        console.error(`Gemini model ${model} error:`, res.status);
+        // 429 = quota exhausted (no point retrying another model), 503 = overloaded (try next)
+        if (res.status === 429) {
+          return NextResponse.json(
+            { error: 'The AI is receiving too many requests right now. Please wait a moment and try again.' },
+            { status: 502 }
+          );
+        }
+        continue;
+      }
+
+      const data = (await res.json()) as {
+        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      };
+      const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+      if (responseText) return NextResponse.json({ reply: responseText });
     }
 
-    const data = (await res.json()) as {
-      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-    };
-
-    const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-    if (!responseText) {
-      return NextResponse.json({ error: 'Empty response from AI. Please try again.' }, { status: 502 });
-    }
-
-    return NextResponse.json({ reply: responseText });
+    return NextResponse.json(
+      { error: `AI service error (${lastStatus}). Please try again.` },
+      { status: 502 }
+    );
   } catch (error) {
     console.error('Chat API error:', error);
     return NextResponse.json(
