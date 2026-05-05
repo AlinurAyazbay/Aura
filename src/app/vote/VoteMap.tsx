@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { District } from '@/types';
@@ -13,9 +13,14 @@ interface VoteMapProps {
 }
 
 export default function VoteMap({ districts, aqiMap, highlightedDistrict, onMarkerClick }: VoteMapProps) {
+  // Unique key per mount prevents "Map container is already initialized" from
+  // React Strict Mode / HMR re-mounting into a container Leaflet already owns.
+  const [mapKey] = useState(() => Date.now());
+
   return (
     <div className="rounded-2xl overflow-hidden border border-white/[0.06] h-[400px]">
       <MapContainer
+        key={mapKey}
         center={[43.2566, 76.9286]}
         zoom={11}
         style={{ height: '100%', width: '100%' }}
