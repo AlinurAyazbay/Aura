@@ -92,12 +92,16 @@ export default function AssistantPage() {
     }
 
     try {
+      const historyWindow = messages.slice(-8);
+      const firstUserIdx = historyWindow.findIndex((m) => m.role === 'user');
+      const validHistory = firstUserIdx >= 0 ? historyWindow.slice(firstUserIdx) : [];
+
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: userMsg.content,
-          history: messages.slice(-8).map((m) => ({ role: m.role, content: m.content })),
+          history: validHistory.map((m) => ({ role: m.role, content: m.content })),
           context: { totalRaised: stats.totalRaised, backerCount: stats.backerCount, aqi: aqiLevel },
         }),
       });

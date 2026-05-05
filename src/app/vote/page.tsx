@@ -7,7 +7,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { useTranslations } from 'next-intl';
 import { auth, db, isFirebaseConfigured } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { collection, doc, onSnapshot, writeBatch } from 'firebase/firestore';
+import { collection, doc, increment, onSnapshot, writeBatch } from 'firebase/firestore';
 import type { District } from '@/types';
 
 const Map = dynamic(() => import('./VoteMap'), { ssr: false, loading: () => (
@@ -135,9 +135,8 @@ export default function VotePage() {
     setVotingLoading(districtId);
     try {
       const batch = writeBatch(db);
-      const distRef = doc(db, 'districts', districtId);
-      batch.update(distRef, { votes: (districts[districtId]?.votes ?? 0) + 1 });
-      batch.update(doc(db, 'users', uid), { votedDistrict: districtId });
+      batch.set(doc(db, 'districts', districtId), { votes: increment(1) }, { merge: true });
+      batch.set(doc(db, 'users', uid), { votedDistrict: districtId }, { merge: true });
       await batch.commit();
       setVotedDistrict(districtId);
     } catch {
