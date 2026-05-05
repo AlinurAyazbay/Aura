@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { auth, db, isFirebaseConfigured } from '@/lib/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { db, isFirebaseConfigured } from '@/lib/firebase';
 import {
   doc, collection, query, orderBy, limit, onSnapshot,
   setDoc, updateDoc, deleteDoc, writeBatch, getDocs,
@@ -13,8 +12,6 @@ import {
 } from 'firebase/firestore';
 import { formatCurrency, formatNumber } from '@/lib/impact';
 import type { GlobalStats, Investment, UserProfile } from '@/types';
-
-const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? '').split(',').map((e) => e.trim());
 
 interface DistrictVote {
   id: string;
@@ -41,16 +38,17 @@ export default function AdminPage() {
   const [loading, setLoading] = useState('');
 
   useEffect(() => {
-    if (!isFirebaseConfigured) { setAuthLoading(false); return; }
-    const unsub = onAuthStateChanged(auth, (u) => {
-      if (!u || !ADMIN_EMAILS.some((e) => e.toLowerCase() === (u.email ?? '').toLowerCase())) {
-        router.push('/');
-        return;
-      }
-      setIsAdmin(true);
-      setAuthLoading(false);
-    });
-    return () => unsub();
+    fetch('/api/auth/session')
+      .then((r) => r.json())
+      .then((data: { authenticated?: boolean; isAdmin?: boolean }) => {
+        if (!data.authenticated || !data.isAdmin) {
+          router.push('/');
+        } else {
+          setIsAdmin(true);
+          setAuthLoading(false);
+        }
+      })
+      .catch(() => router.push('/'));
   }, [router]);
 
   useEffect(() => {

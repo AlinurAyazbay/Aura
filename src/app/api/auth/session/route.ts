@@ -93,6 +93,26 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function GET(request: NextRequest) {
+  const sessionCookie = request.cookies.get('aura_session')?.value;
+  if (!sessionCookie) return NextResponse.json({ authenticated: false, isAdmin: false });
+
+  const isAdminCookie = request.cookies.get('aura_is_admin')?.value;
+  if (!isAdminCookie) return NextResponse.json({ authenticated: true, isAdmin: false });
+
+  const lastDot = isAdminCookie.lastIndexOf('.');
+  if (lastDot === -1) return NextResponse.json({ authenticated: true, isAdmin: false });
+
+  const value = isAdminCookie.substring(0, lastDot);
+  const sig = isAdminCookie.substring(lastDot + 1);
+  const expected = await hmacSha256(value, SESSION_SECRET);
+  let diff = 0;
+  for (let i = 0; i < expected.length; i++) diff |= expected.charCodeAt(i) ^ sig.charCodeAt(i);
+  const isAdmin = diff === 0 && value === 'true';
+
+  return NextResponse.json({ authenticated: true, isAdmin });
+}
+
 export async function DELETE() {
   const response = NextResponse.json({ success: true });
   response.cookies.delete('aura_session');
