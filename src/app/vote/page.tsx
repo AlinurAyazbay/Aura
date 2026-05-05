@@ -102,9 +102,13 @@ export default function VotePage() {
     const unsub = onSnapshot(collection(db, 'districts'), (snap) => {
       const data: Record<string, District> = {};
       snap.docs.forEach((d) => { data[d.id] = { id: d.id, ...d.data() } as District; });
-      // Seed district data from coords if missing
+      // Always merge lat/lng from local coords — Firestore docs don't store coordinates
       Object.entries(DISTRICT_COORDS).forEach(([id, coords]) => {
-        if (!data[id]) {
+        if (data[id]) {
+          data[id].lat = coords.lat;
+          data[id].lng = coords.lng;
+          data[id].nameKk = data[id].nameKk || coords.nameKk;
+        } else {
           data[id] = { id, name: coords.name, nameKk: coords.nameKk, votes: 0, lat: coords.lat, lng: coords.lng };
         }
       });

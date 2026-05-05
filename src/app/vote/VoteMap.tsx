@@ -49,6 +49,7 @@ export default function VoteMap({ districts, aqiMap, highlightedDistrict, onMark
     markersRef.current.clear();
 
     districts.forEach((d) => {
+      if (d.lat == null || d.lng == null) return;
       const aqi = aqiMap[d.id];
       const color = aqi?.color ?? '#8892a4';
       const isHighlighted = d.id === highlightedDistrict;
