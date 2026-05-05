@@ -89,10 +89,11 @@ Keep responses concise (2-4 paragraphs max) and use relevant emojis sparingly.`;
     if (!res.ok) {
       const errText = await res.text();
       console.error('Gemini API error:', res.status, errText);
-      return NextResponse.json(
-        { error: `AI service error (${res.status}). Please try again.` },
-        { status: 502 }
-      );
+      const message =
+        res.status === 429
+          ? 'The AI is receiving too many requests right now. Please wait a moment and try again.'
+          : `AI service error (${res.status}). Please try again.`;
+      return NextResponse.json({ error: message }, { status: 502 });
     }
 
     const data = (await res.json()) as {
